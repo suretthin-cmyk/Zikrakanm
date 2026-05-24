@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>یادی خودا | زیکر و تەسبیحی ئەلیکترۆنی</title>
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+
+    <style>
+        /* ڕەنگە سەرەکییەکان - مۆدی ڕووناک */
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #2d6a4f;
+            --primary-hover: #1b4332;
+            --accent-color: #d8f3dc;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* مۆدی تاریک */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary-color: #52b788;
+            --primary-hover: #74c69d;
+            --accent-color: #2d4a3e;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* دوگمەی گۆڕینی مۆدی شەو و ڕۆژ */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border-top: 8px solid var(--primary-color);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        /* بەشی دیاریکردنی زیکر */
+        .select-box {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* بازنەی نیشاندانی ژمارە */
+        .counter-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 20px 0;
+            font-family: monospace, sans-serif;
+        }
+
+        /* دوگمەی گەورەی تەسبیح */
+        .click-btn {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: 8px solid var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            outline: none;
+            user-select: none;
+            margin-bottom: 25px;
+        }
+
+        .click-btn:active {
+            transform: scale(0.95);
+            background-color: var(--primary-hover);
+        }
+
+        /* دوگمەکانی کۆنترۆڵ */
+        .control-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .reset-btn {
+            background-color: #e63946;
+            color: white;
+        }
+
+        .reset-btn:hover { background-color: #c1121f; }
+
+        /* بەشی کۆتایی */
+        footer {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="themeToggle">🌙 مۆدی تاریک</button>
+
+    <div class="container">
+        <h1>📿 یادی خودا</h1>
+        <p class="subtitle">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+
+        <select class="select-box" id="dhikrSelect">
+            <option value="subhanallah">سُبْحَانَ اللَّهِ</option>
+            <option value="alhamdulillah">الْحَمْدُ لِلَّهِ</option>
+            <option value="allahuakbar">اللَّهُ أَكْبَرُ</option>
+            <option value="astagfirullah">أَسْتَغْفِرُ اللَّهَ</option>
+            <option value="laillahaillallah">لَا إِلَٰهە إِلَّا اللَّهُ</option>
+        </select>
+
+        <div class="counter-display" id="counter">0</div>
+
+        <button class="click-btn" id="clickBtn">زیکر بکە</button>
+
+        <div class="control-btns">
+            <button class="btn reset-btn" id="resetBtn">سفرکردنەوە 🔄</button>
+        </div>
+    </div>
+
+    <footer>پڕۆژەی سەدەقەی جاریە - دروستکراوە بۆ ڕەزامەندی خودا</footer>
+
+    <script>
+        const counterDisplay = document.getElementById('counter');
+        const clickBtn = document.getElementById('clickBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const dhikrSelect = document.getElementById('dhikrSelect');
+        const themeToggle = document.getElementById('themeToggle');
+
+        // دروستکردنی دەنگی ئەلیکترۆنی سووک
+        function playClickSound() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(600, context.currentTime);
+            gain.gain.setValueAtTime(0.1, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.05);
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.05);
+        }
+
+        // بارکردنی داتاکانی پێشوو لە LocalStorage
+        let currentDhikr = dhikrSelect.value;
+        let count = parseInt(localStorage.getItem(`dhikr_${currentDhikr}`)) || 0;
+        counterDisplay.textContent = count;
+
+        // کاتێک زیکرەکە دەگۆڕدرێت
+        dhikrSelect.addEventListener('change', (e) => {
+            currentDhikr = e.target.value;
+            count = parseInt(localStorage.getItem(`dhikr_${currentDhikr}`)) || 0;
+            counterDisplay.textContent = count;
+        });
+
+        // کلیککردن بۆ زیکر
+        clickBtn.addEventListener('click', () => {
+            count++;
+            counterDisplay.textContent = count;
+            localStorage.setItem(`dhikr_${currentDhikr}`, count);
+            
+            playClickSound();
+
+            // لەرینەوەی مۆبایل
+            if (navigator.vibrate) {
+                navigator.vibrate(40);
+            }
+        });
+
+        // سفرکردنەوەی ژمارەکە
+        resetBtn.addEventListener('click', () => {
+            if(confirm("دڵنیای دەتەوێت ژمارەی ئەم زیکرە سفر بکەیتەوە؟")) {
+                count = 0;
+                counterDisplay.textContent = count;
+                localStorage.setItem(`dhikr_${currentDhikr}`, count);
+            }
+        });
+
+        // سیستەمی مۆدی تاریک و ڕووناک
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙 مۆدی تاریک';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ مۆدی ڕووناک';
+            }
+        });
+    </script>
+</body>
+</html>
